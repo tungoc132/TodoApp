@@ -1,0 +1,227 @@
+{% block delete_completetask %}
+<!-- Modal Delete -->
+<div class="modal" id="DeleteModal" tabindex="-1" role="dialog">s
+    <div class="modal-dialog">
+        <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h1 class="modal-title" id="DeleteModalLabel">Confirm</h1>
+        </div>
+  
+        <!-- Modal body -->
+        <form method="post">
+            <div class="modal-body">
+                {% csrf_token %}
+                <p>Are you sure to delete "<b>{{task}}</b>"?</p>
+                <!-- <input class="button-submit" type="submit" value="Delete"> -->
+            </div>
+        </form>
+        <hr>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <a href="{% url 'deletetask' task.id %}"><input class="button-submit" type="submit" data-dismiss="modal" value="Delete"></a>
+            <input type="button" class="button-submit" data-dismiss="modal" aria-label="Close" value="Cancel">
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block delete_incompletetask %}
+<!-- Modal Delete -->
+<div class="modal" id="DeleteModal" tabindex="-1" role="dialog">s
+    <div class="modal-dialog">
+        <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h1 class="modal-title" id="DeleteModalLabel">Confirm</h1>
+        </div>
+  
+        <!-- Modal body -->
+        <form method="post">
+            <div class="modal-body">
+                {% csrf_token %}
+                <p>Are you sure to delete "<b>{{task}}</b>"?</p>
+                <!-- <input class="button-submit" type="submit" value="Delete"> -->
+            </div>
+        </form>
+        <hr>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <a href="{% url 'deletetask' task.id %}"><input class="button-submit" type="submit" data-dismiss="modal" value="Delete"></a>
+            <input type="button" class="button-submit" data-dismiss="modal" aria-label="Close" value="Cancel">
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+# def deleteTask(request, id):
+#     task = Task.objects.get(pk=id)
+#     task.delete()
+#     # success_url = reverse_lazy('alltasks')
+#     return redirect('alltasks')
+    
+    
+# def deleteTask(request, id):
+#     deltask = get_object_or_404(Task, pk=id)
+#     context = {'deletetask': deltask}
+
+#     if request.method == 'POST':
+#         deltask.delete()
+#         return HttpResponseRedirect(reverse('alltasks'))
+#     return render(request, 'base/task_confirm_delete.html', context)
+
+
+
+<!-- {% extends 'main.html' %}
+
+{% block maincol %}
+<div class="maincol">
+    <div data-region="blocks-right">
+        <div class="header-bar-narrow">
+            <a href="{% url 'alltasks' %}">&#8592; Go back</a>
+        </div>
+        
+        <div class="main-body">
+            <form method="post">
+                {% csrf_token %}
+                <p>Are you sure to delete <b>{{task}}</b>?</p>
+                <input class="button" type="submit" value="Delete">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %} -->
+
+
+<script src="{% static 'js/confirm_delete.js' %}"></script>
+<script src="{% static 'js/jquery.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+
+# class RegisterView(FormView):
+#     template_name = 'auth/regist.html'
+#     form_class = UserCreationForm
+#     redirect_authenticated_user = True
+#     success_url = reverse_lazy('alltasks')
+    
+#     def form_valid(self, form):
+#        user = form.save()
+#        if user is not None:
+#            login(self.request, user)
+#        return super(RegisterView, self).form_valid(form)
+   
+#     def get(self, *args, **kwargs):
+#         if self.request.user.is_authenticated:
+#             return redirect('alltasks')
+#         return super(RegisterView, self).get(*args, **kwargs)   
+
+
+<div class="form-group">
+    <label class="label" for="title">Need to do:</label>
+    {{ form.title }}
+    <!-- <span class="text-danger">{{ form.errors.title }}</span> -->
+</div>
+
+<div class="form-group">
+    <label class="label" for="description">Description:</label>
+    {{ form.description }}
+    <!-- <span class="text-danger">{{ form.errors.description }}</span> -->
+</div>
+
+<div class="form-group">
+    <label class="label" for="complete">Complete?</label>
+    {{ form.complete }}
+    <!-- <span class="text-danger">{{ form.errors.complete }}</span> -->
+</div>
+
+<div class="form-group-date">
+    <label class="label" for="date">Deadline:</label>
+    <div class="deadline">
+        <input type="datetime" name="date" class="vDateField" size="10" required="" id="id_date" value={{task.date}}>
+        {{ form.media }}
+    </div>
+</div>
+
+<div>
+    <table class="tasklist">
+      <thead>
+        <tr>
+          <th>Task Title</th>
+          <th>Deadline</th>
+          <th style="text-align: center;">Status</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        
+        {% for task in alltasks %}
+        <tr>
+          <td>{{ task.title }}</td>
+          <td>{{ task.date }}</td>
+          <td style="text-align: center;" >{{ task.complete }}</td>
+          <td>Delete</td>
+        </tr>
+        {% endfor %}
+        </tr>
+      </tbody>
+
+    </table>
+</div>
+
+<div class="task-items-wrapper" style="background: white">
+    {% for task in alltasks %}
+    <div class="task-wrapper">
+      {% if task.complete %}
+      <div class="task-title">
+        <div class="task-complete-icon"></div>
+        <i><s><a href="{% url 'update-task' task.id %}">{{task}}</a></s></i>
+      </div>
+      <div class="task-deadline">
+        <p>{{ task.date }}</p>
+      </div>
+      <a href="{% url 'delete-task' task.id %}">
+        <i class="fas fa-trash" style="color: red; cursor: pointer"></i>
+      </a>
+      {% else %}
+      <div class="task-title">
+        <div class="task-incomplete-icon"></div>
+        <a href="{% url 'update-task' task.id %}">{{task}}</a>
+      </div>
+      <div class="task-deadline">
+        <p>{{ task.date }}</p>
+      </div>
+      <a href="{% url 'delete-task' task.id %}">
+        <i class="fas fa-trash" style="color: red; cursor: pointer"></i>
+      </a>
+      {% endif %}
+    </div>
+    {% empty %}
+    <h3 style="margin-left: 17px">No items in list</h3>
+    {% endfor %}
+  </div>
+
+/* --bs-tasklist-color-type: initial;
+    --bs-tasklist-bg-type: initial;
+    --bs-tasklist-color-state: initial;
+    --bs-tasklist-bg-state: initial;
+    --bs-tasklist-color: var(--bs-emphasis-color);
+    --bs-tasklist-bg: var(--bs-body-bg);
+    --bs-tasklist-border-color: var(--bs-border-color);
+    --bs-tasklist-accent-bg: transparent;
+    --bs-tasklist-striped-color: var(--bs-emphasis-color);
+    --bs-tasklist-striped-bg: rgba(var(--bs-emphasis-color-rgb), 0.05);
+    --bs-tasklist-active-color: var(--bs-emphasis-color);
+    --bs-tasklist-active-bg: rgba(var(--bs-emphasis-color-rgb), 0.1);
+    --bs-tasklist-hover-color: var(--bs-emphasis-color);
+    --bs-tasklist-hover-bg: rgba(var(--bs-emphasis-color-rgb), 0.075); */
+
+<!-- <input type="datetime" name="date" class="vDateField" size="10" required="" id="id_date"> -->

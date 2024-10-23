@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block auth %}
+<div class="header-bar-auth">
+    <img src="{% static 'img/logo.png' %}">
+    <h1>Taskivist</h1>
+</div>
+
+<div class="auth_form">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group-auth">
+            <i class="fas fa-user" style="color: #0a3f11;"></i>
+            <label class="label" style="padding-left: 5px;" for="username">Username</label>
+            {{ form.username }}
+            <span class="text-danger">{{ form.errors.username }}</span>
+        </div>
+
+        <div class="form-group-auth">
+            <i class="fas fa-key" style="color: #0e3f11;"></i>
+            <label class="label" style="padding-left: 5px;" for="password">Password</label>
+            {{ form.password }}
+            <span class="text-danger">{{ form.errors.password }}</span>
+        </div>
+        {% for key, value in form.errors.items %}
+            {{value}}
+        {% endfor %}
+        <div class="btn-auth">
+            <input class="button-auth" type="submit" value="Login">
+        </div>
+    </form>
+    <div class="more">
+        <p>Don't have account?</p>
+        <a href="{% url 'register' %}">Create account</a>
+    </div>
+    
+
+</div>
+
+{% endblock auth %}
