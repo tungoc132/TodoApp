@@ -1,7 +1,7 @@
 # TodoApp
 An app that helps users to manage tasks effortlessly; Enable creation, update, and deletion of tasks for organized productivity. Perfect for staying on top of to-do lists
 
-# Executing programe
+# Executing programme
 1. Install dependencies
 ```
 pip install -r requirements.txt
